@@ -6,9 +6,6 @@ const miModulo = (() => {
     const tipos = ['C', 'D', 'H', 'S'],
           especiales = ['A', 'J', 'Q', 'K'];
 
-    // let puntosJugador = 0,
-    //     puntosComputadora = 0;
-
     let puntosJugadores = [];
 
     //* Referencias del HTML
@@ -20,6 +17,16 @@ const miModulo = (() => {
     // Cartas
     const divCartasJugadores = document.querySelectorAll('.divCartas'),
           puntosHTML = document.querySelectorAll('small');
+
+    const cartasIniciales = () => {
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j <  puntosJugadores.length; j++) {
+                const carta = pedirCarta();
+                acumularPuntos(carta, j);
+                crearCarta(carta, j);
+            }
+        }
+    }
 
     // Esta función inicializa el juego
     const inicializarJuego = ( numJugadores = 2 ) => {
@@ -37,6 +44,9 @@ const miModulo = (() => {
         // Restablecer estado de botones
         btnPedir.disabled = false;
         btnQuedarse.disabled = true;
+
+        // Repartir cartas iniciales
+        cartasIniciales();
     }
 
     // Esta función crea una nueva baraja
@@ -132,6 +142,7 @@ const miModulo = (() => {
         determinarGanador();
     }
 
+
     // Eventos
     btnPedir.addEventListener('click', () => {
 
@@ -172,8 +183,4 @@ const miModulo = (() => {
     return {
         nuevoJuego: inicializarJuego
     };
-
 })();
-
-
-
