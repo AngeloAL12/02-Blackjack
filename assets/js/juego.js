@@ -51,7 +51,6 @@ const miModulo = (() => {
 
     // Esta función crea una nueva baraja
     const crearDeck = () => {
-
         deck = [];
         for ( let i = 2; i<=10; i++ ) {
             for ( let tipo of tipos ) {
@@ -71,7 +70,6 @@ const miModulo = (() => {
     // Esta función me permite tomar una carte
 
     const pedirCarta = () => {
-
         if ( deck.length === 0 ) {
             throw 'No hay cartas en el deck'
         }
@@ -92,8 +90,14 @@ const miModulo = (() => {
 
     // Turno: 0 = primer jugador y el último será la computadora
     const acumularPuntos = ( carta, turno ) => {
+        const valor = puntosJugadores[turno] += valorCarta( carta );
 
-        puntosJugadores[turno] += valorCarta( carta );
+        // Si es un As y al sumar 11 nos pasamos de 21, sumamos 1 en su lugar
+        // if (carta.startsWith('A') && (puntosJugadores[turno] + valor > 21)) {
+        //     puntosJugadores[turno] += 1;
+        // } else {
+        //     puntosJugadores[turno] += valor;
+        // }
 
         // Seleccionar la imagen de la carta
         puntosHTML[turno].innerText = puntosJugadores[turno];
@@ -150,9 +154,10 @@ const miModulo = (() => {
         btnNuevoJuego.disabled = false;
 
         const carta = pedirCarta();
-        const puntosJugador = acumularPuntos(carta, 0);
+        const puntosJugador = acumularPuntos(carta, 0)[0];
 
         crearCarta(carta, 0);
+
 
         if (puntosJugador > 21) {
             console.warn('Lo siento mucho, perdiste');
@@ -162,6 +167,7 @@ const miModulo = (() => {
         } else if (puntosJugador === 21) {
             console.warn('21, genial!');
             btnPedir.disabled = true;
+            btnQuedarse.disabled = true;
             turnoComputadora( puntosJugador );
         }
     });
